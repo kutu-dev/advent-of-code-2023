@@ -39,22 +39,17 @@ int main()
         games[i][strcspn(games[i], "\r\n")] = 0;
     }
 
-    const int max_red_cubes = 12;
-    const int max_green_cubes = 13;
-    const int max_blue_cubes = 14;
-
-    int sum_of_valid_ids = 0;
+    int sum_of_power_of_min_cubes = 0;
 
     for (size_t i = 0; i < lines; i++)
     {
-        char *game_header = strtok(games[i], ":");
+        // Get the data of the game
+        strtok(games[i], ":");
         char *game_data = strtok(NULL, "");
-        bool game_valid = true;
 
-        // Remove the first part of the game_header
-        strtok(game_header, " ");
-        // Get the second part (the ID) and convert to long
-        int game_id = strtol(strtok(NULL, ""), NULL, 10);
+        int min_red_cubes = 0;
+        int min_green_cubes = 0;
+        int min_blue_cubes = 0;
 
         int number_of_sets = 1;
         for (size_t j = 0; j < strlen(game_data); j++)
@@ -75,13 +70,8 @@ int main()
 
         for (size_t j = 0; j < sizeof(sets) / sizeof(sets[0]); j++)
         {
-            printf("GAME ID: %d\n", game_id);
             printf("SET: %zu\n", j);
             printf("%s\n", sets[j]);
-
-            int red_cubes = 0;
-            int green_cubes = 0;
-            int blue_cubes = 0;
 
             int num_cube_colors = 1;
             for (size_t k = 0; k < strlen(sets[j]); k++)
@@ -105,26 +95,27 @@ int main()
                 int num_of_cubes = strtol(strtok(cube_colors[k], " "), NULL, 10);
                 char *cube_color = strtok(NULL, "");
 
-                if (strstr("red", cube_color) != NULL && num_of_cubes > max_red_cubes || strstr("green", cube_color) != NULL && num_of_cubes > max_green_cubes || strstr("blue", cube_color) != NULL && num_of_cubes > max_blue_cubes)
+                if ((strcmp(cube_color, "red")) == 0 && num_of_cubes > min_red_cubes)
                 {
-                    game_valid = false;
-                    break;
+                    min_red_cubes = num_of_cubes;
+                }
+
+                if ((strcmp(cube_color, "blue")) == 0 && num_of_cubes > min_green_cubes)
+                {
+                    min_green_cubes = num_of_cubes;
+                }
+
+                if ((strcmp(cube_color, "green")) == 0 && num_of_cubes > min_blue_cubes)
+                {
+                    min_blue_cubes = num_of_cubes;
                 }
             }
-
-            if (!game_valid)
-            {
-                break;
-            }
         }
 
-        if (game_valid)
-        {
-            sum_of_valid_ids += game_id;
-        }
+        sum_of_power_of_min_cubes += min_red_cubes * min_green_cubes * min_blue_cubes;
     }
 
-    printf("%d\n", sum_of_valid_ids);
+    printf("%d\n", sum_of_power_of_min_cubes);
 
     return 0;
 }
