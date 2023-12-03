@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../common/logger.h"
 
 int main()
 {
@@ -9,12 +10,12 @@ int main()
 
     if ((input_file = fopen("input.txt", "r")) == NULL)
     {
-        printf("File could not be opened\n");
+        error_print("2", "1", "'input.txt' file could not be opened!");
         return 1;
     }
 
-    char current_char;
-    int lines = 0;
+    char current_char = '\0';
+    size_t lines = 0;
 
     while (current_char != EOF)
     {
@@ -56,7 +57,7 @@ int main()
         // Get the second part (the ID) and convert to long
         int game_id = strtol(strtok(NULL, ""), NULL, 10);
 
-        int number_of_sets = 1;
+        size_t number_of_sets = 1;
         for (size_t j = 0; j < strlen(game_data); j++)
         {
             if (game_data[j] == ';')
@@ -75,15 +76,7 @@ int main()
 
         for (size_t j = 0; j < sizeof(sets) / sizeof(sets[0]); j++)
         {
-            printf("GAME ID: %d\n", game_id);
-            printf("SET: %zu\n", j);
-            printf("%s\n", sets[j]);
-
-            int red_cubes = 0;
-            int green_cubes = 0;
-            int blue_cubes = 0;
-
-            int num_cube_colors = 1;
+            size_t num_cube_colors = 1;
             for (size_t k = 0; k < strlen(sets[j]); k++)
             {
                 if (sets[j][k] == ',')
@@ -105,7 +98,7 @@ int main()
                 int num_of_cubes = strtol(strtok(cube_colors[k], " "), NULL, 10);
                 char *cube_color = strtok(NULL, "");
 
-                if (strstr("red", cube_color) != NULL && num_of_cubes > max_red_cubes || strstr("green", cube_color) != NULL && num_of_cubes > max_green_cubes || strstr("blue", cube_color) != NULL && num_of_cubes > max_blue_cubes)
+                if ((strstr("red", cube_color) != NULL && num_of_cubes > max_red_cubes) || (strstr("green", cube_color) != NULL && num_of_cubes > max_green_cubes) || (strstr("blue", cube_color) != NULL && num_of_cubes > max_blue_cubes))
                 {
                     game_valid = false;
                     break;
@@ -124,7 +117,13 @@ int main()
         }
     }
 
-    printf("%d\n", sum_of_valid_ids);
+    char answer_format[] = "Answer: %d";
+    size_t length_of_sum_of_valid_ids = snprintf(NULL, 0, answer_format, sum_of_valid_ids) + 1;
+    char *sum_of_valid_ids_converted = malloc(length_of_sum_of_valid_ids);
+    snprintf(sum_of_valid_ids_converted, length_of_sum_of_valid_ids, answer_format, sum_of_valid_ids);
+
+    info_print("2","1",sum_of_valid_ids_converted);
+    free(sum_of_valid_ids_converted);
 
     return 0;
 }

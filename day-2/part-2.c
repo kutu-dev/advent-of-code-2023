@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../common/logger.h"
 
 int main()
 {
@@ -9,12 +10,12 @@ int main()
 
     if ((input_file = fopen("input.txt", "r")) == NULL)
     {
-        printf("File could not be opened\n");
+        error_print("2", "2", "'input.txt' file could not be opened!");
         return 1;
     }
 
-    char current_char;
-    int lines = 0;
+    char current_char = '\0';
+    size_t lines = 0;
 
     while (current_char != EOF)
     {
@@ -51,7 +52,7 @@ int main()
         int min_green_cubes = 0;
         int min_blue_cubes = 0;
 
-        int number_of_sets = 1;
+        size_t number_of_sets = 1;
         for (size_t j = 0; j < strlen(game_data); j++)
         {
             if (game_data[j] == ';')
@@ -70,10 +71,7 @@ int main()
 
         for (size_t j = 0; j < sizeof(sets) / sizeof(sets[0]); j++)
         {
-            printf("SET: %zu\n", j);
-            printf("%s\n", sets[j]);
-
-            int num_cube_colors = 1;
+            size_t num_cube_colors = 1;
             for (size_t k = 0; k < strlen(sets[j]); k++)
             {
                 if (sets[j][k] == ',')
@@ -115,7 +113,13 @@ int main()
         sum_of_power_of_min_cubes += min_red_cubes * min_green_cubes * min_blue_cubes;
     }
 
-    printf("%d\n", sum_of_power_of_min_cubes);
+    char answer_format[] = "Answer: %d";
+    size_t length_of_sum_of_valid_ids = snprintf(NULL, 0, answer_format, sum_of_power_of_min_cubes) + 1;
+    char *sum_of_valid_ids_converted = malloc(length_of_sum_of_valid_ids);
+    snprintf(sum_of_valid_ids_converted, length_of_sum_of_valid_ids, answer_format, sum_of_power_of_min_cubes);
+
+    info_print("2","2",sum_of_valid_ids_converted);
+    free(sum_of_valid_ids_converted);
 
     return 0;
 }
