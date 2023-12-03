@@ -45,7 +45,7 @@ int main()
     char buffer[strlen(schematic_lines[0])];
     bool valid_part;
 
-    for (size_t i = 0; i < lines + 1; i++)
+    for (size_t i = 0; i < lines; i++)
     {
         printf("LINE: %zu\n", i + 1);
 

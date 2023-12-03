@@ -1,3 +1,6 @@
 build
 .vscode
 *.out
+part-1
+part-2
+*.dSYM
