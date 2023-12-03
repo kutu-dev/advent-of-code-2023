@@ -114,12 +114,12 @@ int main()
     }
 
     char answer_format[] = "Answer: %d";
-    size_t length_of_sum_of_valid_ids = snprintf(NULL, 0, answer_format, sum_of_power_of_min_cubes) + 1;
-    char *sum_of_valid_ids_converted = malloc(length_of_sum_of_valid_ids);
-    snprintf(sum_of_valid_ids_converted, length_of_sum_of_valid_ids, answer_format, sum_of_power_of_min_cubes);
+    size_t length_sum_of_power_of_min_cubes = snprintf(NULL, 0, answer_format, sum_of_power_of_min_cubes) + 1;
+    char *sum_of_power_of_min_cubes_converted = malloc(length_sum_of_power_of_min_cubes);
+    snprintf(sum_of_power_of_min_cubes_converted, length_sum_of_power_of_min_cubes, answer_format, sum_of_power_of_min_cubes);
 
-    info_print("2","2",sum_of_valid_ids_converted);
-    free(sum_of_valid_ids_converted);
+    info_print("2", "2", sum_of_power_of_min_cubes_converted);
+    free(sum_of_power_of_min_cubes_converted);
 
     return 0;
 }

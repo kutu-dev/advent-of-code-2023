@@ -150,12 +150,12 @@ int main()
     }
 
     char answer_format[] = "Answer: %d";
-    size_t length_of_sum_of_valid_ids = snprintf(NULL, 0, answer_format, final_calibration_value) + 1;
-    char *sum_of_valid_ids_converted = malloc(length_of_sum_of_valid_ids);
-    snprintf(sum_of_valid_ids_converted, length_of_sum_of_valid_ids, answer_format, final_calibration_value);
+    size_t length_valid_calibration_value = snprintf(NULL, 0, answer_format, final_calibration_value) + 1;
+    char *valid_calibration_value_converted = malloc(length_valid_calibration_value);
+    snprintf(valid_calibration_value_converted, length_valid_calibration_value, answer_format, final_calibration_value);
 
-    info_print("1","2",sum_of_valid_ids_converted);
-    free(sum_of_valid_ids_converted);
+    info_print("1", "2", valid_calibration_value_converted);
+    free(valid_calibration_value_converted);
 
     return 0;
 }
