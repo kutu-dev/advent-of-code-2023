@@ -1,5 +1,5 @@
 CC:=gcc
-CFLAGS:=-Wall -Wextra -Werror -Wpedantic -O2 -lm -ftrapv
+CFLAGS:=-Wall -Wextra -Werror -Wpedantic -O3
 BUILD:=./build
 OUT_FILENAMES:=p1d1 p2d1 p1d2 p2d2
 OUT_FILENAMES:=$(foreach out_filename,$(OUT_FILENAMES),$(out_filename).out)
@@ -65,6 +65,11 @@ p1d5.out: day-5/part-1.c common/logger.c
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-5/$@
 
 p2d5.out: day-5/part-2.c common/logger.c
+	@mkdir -p $(BUILD)/day-5
+	@cp day-5/input.txt $(BUILD)/day-5
+	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-5/$@
+
+p2d5b.out: day-5/part-2-bis.c common/logger.c
 	@mkdir -p $(BUILD)/day-5
 	@cp day-5/input.txt $(BUILD)/day-5
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-5/$@
