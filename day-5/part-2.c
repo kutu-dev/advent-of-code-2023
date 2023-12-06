@@ -30,12 +30,13 @@ transform_source_to_destination(char **input_lines,
 
     printf("Calculating: %s\n", input_lines[map_index]);
 
-    interval *queued_intervals = malloc(num_of_intervals_in_source_array * 3 * sizeof(interval));
-
     bool *already_transformed_interval = malloc(num_of_intervals_in_source_array * 3 * sizeof(bool));
     memset(already_transformed_interval, false, num_of_intervals_in_source_array * 3);
 
+    interval *queued_intervals = malloc(num_of_intervals_in_source_array * 3 * sizeof(interval));
     size_t elements_in_queued_intervals = num_of_intervals_in_source_array;
+    size_t max_elements_in_queued_intervals = num_of_intervals_in_source_array * 3;
+
     for (size_t i = 0; i < (size_t)num_of_intervals_in_source_array; i++)
     {
         queued_intervals[i].start = source_intervals_array[i].start;
@@ -114,6 +115,14 @@ transform_source_to_destination(char **input_lines,
             if (rest_before.start != -1 && rest_before.end != -1)
             {
                 printf("              ┗ With rest (before): [%lld, %lld]\n", rest_before.start, rest_before.end);
+
+                if (elements_in_queued_intervals > max_elements_in_queued_intervals - 1) {
+                    max_elements_in_queued_intervals += max_elements_in_queued_intervals * 1;
+                    queued_intervals = realloc(queued_intervals, max_elements_in_queued_intervals * sizeof(interval));
+                }
+
+                already_transformed_interval = realloc(already_transformed_interval, max_elements_in_queued_intervals * sizeof(bool));
+
                 queued_intervals[elements_in_queued_intervals] = rest_before;
                 elements_in_queued_intervals++;
             }
@@ -121,6 +130,14 @@ transform_source_to_destination(char **input_lines,
             if (rest_after.start != -1 && rest_after.end != -1)
             {
                 printf("              ┗ With rest (after): [%lld, %lld]\n", rest_after.start, rest_after.end);
+                
+                if (elements_in_queued_intervals > max_elements_in_queued_intervals - 1) {
+                    max_elements_in_queued_intervals += max_elements_in_queued_intervals * 0.1;
+                    queued_intervals = realloc(queued_intervals, max_elements_in_queued_intervals * sizeof(interval));
+                }
+                
+                already_transformed_interval = realloc(already_transformed_interval, max_elements_in_queued_intervals * sizeof(bool));
+
                 queued_intervals[elements_in_queued_intervals] = rest_after;
                 elements_in_queued_intervals++;
             }

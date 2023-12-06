@@ -69,7 +69,4 @@ p2d5.out: day-5/part-2.c common/logger.c
 	@cp day-5/input.txt $(BUILD)/day-5
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-5/$@
 
-p2d5b.out: day-5/part-2-bis.c common/logger.c
-	@mkdir -p $(BUILD)/day-5
-	@cp day-5/input.txt $(BUILD)/day-5
-	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-5/$@
+
