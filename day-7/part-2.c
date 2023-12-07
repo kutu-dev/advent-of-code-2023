@@ -153,12 +153,12 @@ int get_card_value(char card)
         return 12;
         break;
 
-    case 'J':
-        return 1;
-        break;
-
     case 'T':
         return 10;
+        break;
+
+    case 'J':
+        return 1;
         break;
     }
 
