@@ -16,7 +16,6 @@ long long gcd(long long int num_1, long long int num_2){
     return gcd(num_2,num_1%num_2);
 }
 
-
 long long lcm(long long num_1,long long num_2){     
     if(num_1>num_2)
         return (num_1/gcd(num_1,num_2))*num_2;

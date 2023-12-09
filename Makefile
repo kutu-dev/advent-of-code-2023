@@ -98,3 +98,14 @@ p2d8.out: day-8/part-2.c common/logger.c common/c-hashmap/map.c
 	@mkdir -p $(BUILD)/day-8
 	@cp day-8/input.txt $(BUILD)/day-8
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-8/$@
+
+p1d9.out: day-9/part-1.c common/logger.c
+	@mkdir -p $(BUILD)/day-9
+	@cp day-9/input.txt $(BUILD)/day-9
+	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-9/$@
+
+p2d9.out: day-9/part-2.c common/logger.c
+	@mkdir -p $(BUILD)/day-9
+	@cp day-9/input.txt $(BUILD)/day-9
+	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-9/$@
+
