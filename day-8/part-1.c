@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "../common/c-hashmap/map.h"
 
-#define UNUSED(...) (void)(__VA_ARGS__)
+#define UNUSED(var) (void)(var)
 
 typedef struct {
     char *node_left;
@@ -11,7 +11,9 @@ typedef struct {
 } node;
 
 void free_node(void *key, size_t key_size, uintptr_t value_ptr, void *user_ptr) {
-    UNUSED(key, key_size, user_ptr);
+    UNUSED(key);
+    UNUSED(key_size);
+    UNUSED(user_ptr);
 
     free((node *)value_ptr);
 }
@@ -64,7 +66,7 @@ int main()
         new_node->node_left = strdup(node_left);
         new_node->node_right = strdup(node_right);
 
-        hashmap_set(nodes, strdup(node_value), sizeof(node_value), (uintptr_t)new_node);
+        hashmap_set(nodes, strdup(node_value), strlen(node_value), (uintptr_t)new_node);
 
         printf("New node %s = (%s, %s)\n", node_value, node_left, node_right);
     }
@@ -72,13 +74,15 @@ int main()
     int num_of_steps = 0;
     char *current_element = "AAA";
 
-    while (strcmp(current_element, "ZZZ")) {
+    while (strcmp(current_element, "ZZZ") != 0) {
+        puts("Starting routing:");
+
         for (size_t i = 0; i < strlen(input_lines[0]); i++) {
             uintptr_t current_node_ptr;
 
             hashmap_get(nodes, current_element, strlen(current_element), &current_node_ptr);
 
-            printf("%s", ((node *)current_node_ptr)->node_left);
+            printf("Going to node %s\n", ((node *)current_node_ptr)->node_left);
 
             if (input_lines[0][i] == 'L') {
                 current_element = ((node *)current_node_ptr)->node_left;
@@ -89,6 +93,8 @@ int main()
             num_of_steps++;
         }
     }
+
+    printf("Number of steps: %d\n", num_of_steps);
 
     hashmap_iterate(nodes, free_node, NULL);
 }
