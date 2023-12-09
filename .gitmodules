@@ -1,0 +1,3 @@
+[submodule "common/c-hashmap"]
+	path = common/c-hashmap
+	url = https://github.com/Mashpoe/c-hashmap
