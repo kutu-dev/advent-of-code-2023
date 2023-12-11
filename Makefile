@@ -1,5 +1,5 @@
 CC:=gcc
-CFLAGS:=-Wall -Wextra -Werror -Wpedantic -O3 -lm -ftrapv
+CFLAGS:=-Wall -Wextra -Werror -Wpedantic -O3 -lm -ftrapv -g
 BUILD:=./build
 OUT_FILENAMES:=p1d1 p2d1 p1d2 p2d2
 OUT_FILENAMES:=$(foreach out_filename,$(OUT_FILENAMES),$(out_filename).out)

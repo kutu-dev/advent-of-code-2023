@@ -100,20 +100,31 @@ int main()
 
     printf("Next pipe found at [%d][%d]\n", current_y, current_x);
 
-    line_x_values *pipe_coors = malloc((lines - 1) * sizeof(line_x_values));
+    line_x_values *pipe_coors = malloc(lines * sizeof(line_x_values));
 
     for (size_t i = 0; i < lines; i++) {
-        pipe_coors[i].x_values = malloc(300 * sizeof(int));
+        pipe_coors[i].x_values = malloc((strlen(input_lines[0]) - 1) * sizeof(int));
         pipe_coors[i].last_index = 0;
     }
 
     add_to_coords(pipe_coors, previous_y, previous_x);
     add_to_coords(pipe_coors, current_y, current_x);
 
+    int start_y = previous_y;
+    int start_x = previous_x;
+
+    int next_to_start_y_1 = current_y;
+    int next_to_start_x_1 = current_x;
+
+    int next_to_start_y_2 = 0;
+    int next_to_start_x_2 = 0;
+
     while (true) {
         char current_pipe_char = input_lines[current_y][current_x];
 
         if (current_pipe_char == 'S' || current_pipe_char == '.') {
+            next_to_start_y_2 = previous_y;
+            next_to_start_x_2 = previous_x;
             break;
         }
 
@@ -169,8 +180,6 @@ int main()
             break;
         }
 
-        //printf("NEXT 1: [%d, %d] NEXT 2: [%d, %d]\n", next_y_1, next_x_1, next_y_2, next_x_2);
-
         if (next_x_1 == previous_x && next_y_1 == previous_y) {
             previous_x = current_x;
             previous_y = current_y;
@@ -185,8 +194,22 @@ int main()
             current_y = next_y_1;
         }
 
-        //printf("Going to %c, in [%d, %d]\n", input_lines[current_y][current_x], current_y + 1, current_x + 1);
+        printf("Going to %c, in [%d, %d]\n", input_lines[current_y][current_x], current_y, current_x);
         add_to_coords(pipe_coors, current_y, current_x);
+    }
+
+    int half_of_start = 0;
+
+    if (
+        ((start_y - 1 == next_to_start_y_1 || start_y - 1 == next_to_start_y_2) && (start_x + 1 == next_to_start_x_1 || start_x + 1 == next_to_start_x_2)) ||
+        ((start_y + 1 == next_to_start_y_1 || start_y + 1 == next_to_start_y_2) && (start_x - 1 == next_to_start_x_1 || start_x - 1 == next_to_start_x_2))
+    ) {
+        half_of_start = 1;
+    } else if (
+        ((start_y - 1 == next_to_start_y_1 || start_y - 1 == next_to_start_y_2) && (start_x - 1 == next_to_start_x_1 || start_x - 1 == next_to_start_x_2)) ||
+        ((start_y + 1 == next_to_start_y_1 || start_y + 1 == next_to_start_y_2) && (start_x + 1 == next_to_start_x_1 || start_x + 1 == next_to_start_x_2))
+    ) {
+        half_of_start = -1;
     }
 
     int num_of_grounds_inside_pipes = 0;
@@ -223,7 +246,7 @@ int main()
                     }
 
                     if (input_lines[i][k] == 'S') {
-                        num_of_halfs++;
+                        num_of_halfs += half_of_start;
                         continue;
                     }
 
@@ -242,7 +265,7 @@ int main()
             printf("Pipes touched: %d\n", num_of_times_touch_pipes);
 
             if ((int)num_of_times_touch_pipes % 2 != 0) {
-                printf("Inside %c in [%ld, %ld] -------------------------\n", input_lines[i][j], i, j);
+                printf("%c inside [%ld, %ld]\n", input_lines[i][j], i, j);
 
                 num_of_grounds_inside_pipes++;
             }
@@ -251,4 +274,8 @@ int main()
 
     printf("Num of grounds inside pipes: %d\n", num_of_grounds_inside_pipes);
 
+    for (size_t i = 0; i < lines - 1; i++) {
+        free(pipe_coors[i].x_values);
+    }
+    free(pipe_coors);
 }
