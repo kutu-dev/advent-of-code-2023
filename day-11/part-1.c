@@ -149,10 +149,8 @@ int main()
         for (size_t j = 0; j < strlen(resized_input[i]); j++) {
 
             if (resized_input[i][j] == '#') {
-                foo++;
-                printf("Galaxy %d [%ld, %ld] found:\n", foo, i, j);
+                printf("Galaxy [%ld, %ld] found:\n", i, j);
 
-                int bar = foo;
                 for (size_t k = i; k < (size_t)(lines + num_new_horizontal_lines); k++) {
                         size_t char_index = 0;
                         if (k == i) {
@@ -162,8 +160,7 @@ int main()
                     for (size_t l = char_index; l < strlen(resized_input[k]); l++) {
                         //printf("Trying [%ld, %ld]\n", k, l);
                         if (resized_input[k][l] == '#') {
-                            bar++;
-                            printf("  Pair galaxy %d [%ld, %ld] found, calculating distance:\n", bar, k, l);
+                            printf("  Pair galaxy [%ld, %ld] found, calculating distance:\n", k, l);
                             int distance = 0;
 
                             distance = abs((int)k - (int)i)  + abs((int)l - (int)j);

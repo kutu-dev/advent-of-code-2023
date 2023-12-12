@@ -92,84 +92,75 @@ int main()
       
     puts("");
 
-    char **resized_input = malloc((lines + num_new_horizontal_lines) * sizeof(char *));
-
-    for (size_t i = 0; i < lines + num_new_horizontal_lines; i++) {
-        resized_input[i] = malloc((strlen(input_lines[0]) + num_new_vertical_lines) * sizeof(char));
-    }
-
-    bool next_line_empty = false;
-    int horizontal_offset = 0;
-    for (size_t i = 0; i < lines + num_new_horizontal_lines; i++) {
-        if (next_line_empty) {
-            for (size_t j = 0; j < strlen(input_lines[0]) + num_new_vertical_lines; j++) {
-                resized_input[i][j] = 'H';
-            }
-            next_line_empty = false;
-            horizontal_offset++;
-            continue;
-        }
-
-        for (size_t j = 0; j < num_new_horizontal_lines; j++) {
-            if (i - horizontal_offset == (size_t)(new_horizontal_lines[j])) {
-                next_line_empty = true;
-            }
-        }
-
-        bool next_char_empty = false;
-        int vertical_offset = 0;
-        for (size_t j = 0; j < strlen(input_lines[0]) + num_new_vertical_lines; j++) {
-            if (next_char_empty) {
-                resized_input[i][j] = '.';
-                next_char_empty = false;
-                vertical_offset++;
-                continue;
-            }
-
-            for (size_t k = 0; k < num_new_vertical_lines; k++) {
-                if (j - vertical_offset == (size_t)(new_vertical_lines[k])) {
-                    next_char_empty = true;
-                }
-            }
-
-            resized_input[i][j] = input_lines[i - horizontal_offset][j - vertical_offset];
-        }
-
-    }
-
-    for (size_t i = 0; i < (size_t)(lines + num_new_horizontal_lines); i++) {
-        printf("%s\n", resized_input[i]);
-    }
-
-    int sum_of_distances = 0;
+    int size_of_the_empty_space = 1000000;
+    long long sum_of_distances = 0;
 
     puts("Calculating length between galaxies");
     int foo = 0;
-    for (size_t i = 0; i < (size_t)(lines + num_new_horizontal_lines); i++) {
-        for (size_t j = 0; j < strlen(resized_input[i]); j++) {
+    for (size_t i = 0; i < lines; i++) {
+        for (size_t j = 0; j < strlen(input_lines[i]); j++) {
 
-            if (resized_input[i][j] == '#') {
+            if (input_lines[i][j] == '#') {
                 foo++;
                 printf("Galaxy %d [%ld, %ld] found:\n", foo, i, j);
 
                 int bar = foo;
-                for (size_t k = i; k < (size_t)(lines + num_new_horizontal_lines); k++) {
+                for (size_t k = i; k < lines; k++) {
                         size_t char_index = 0;
                         if (k == i) {
                             char_index = j + 1;
                         }
 
-                    for (size_t l = char_index; l < strlen(resized_input[k]); l++) {
+                    for (size_t l = char_index; l < strlen(input_lines[k]); l++) {
                         //printf("Trying [%ld, %ld]\n", k, l);
-                        if (resized_input[k][l] == '#') {
+                        if (input_lines[k][l] == '#') {
                             bar++;
                             printf("  Pair galaxy %d [%ld, %ld] found, calculating distance:\n", bar, k, l);
-                            int distance = 0;
 
-                            distance = abs((int)k - (int)i)  + abs((int)l - (int)j);
+                            long long extra_horizontal_empty_lines = 0;
+
+                            for (size_t m = 0; m < num_new_horizontal_lines; m++) {
+                                long long low = 0;
+                                long long high = 0;
+
+                                if (i < k) {
+                                    low = i;
+                                    high = k;
+                                } else {
+                                    low = k;
+                                    high = i;
+                                }
+
+                                if (new_horizontal_lines[m] > low && new_horizontal_lines[m] < high) {
+                                    extra_horizontal_empty_lines += (size_of_the_empty_space - 1);
+                                }
+                            }
+
+                            long long extra_vertical_empty_lines = 0;
+
+                            for (size_t m = 0; m < num_new_vertical_lines; m++) {
+                                long long low = 0;
+                                long long high = 0;
+
+                                if (j < l) {
+                                    low = j;
+                                    high = l;
+                                } else {
+                                    low = l;
+                                    high = j;
+                                }
+                                
+                                if (new_vertical_lines[m] > low && new_vertical_lines[m] < high) {
+                                    extra_vertical_empty_lines += (size_of_the_empty_space - 1);
+                                }
+                            }
+
+                            long long distance = 0;
+
+                            distance = abs((int)k - (int)i) + abs((int)l - (int)j) + extra_horizontal_empty_lines + extra_vertical_empty_lines;
 
                             sum_of_distances += distance;
-                            printf("    Galaxies [%ld, %ld] - [%ld, %ld] distance %d\n", i, j, k, l, distance);
+                            printf("    Galaxies [%ld, %ld] - [%ld, %ld] distance %lld\n", i, j, k, l, distance);
                         }
                     }
                 }
@@ -177,14 +168,8 @@ int main()
         }
     }
 
-    printf("Sum of distances %d\n", sum_of_distances);
+    printf("Sum of distances %lld\n", sum_of_distances);
 
     free(new_horizontal_lines);
     free(new_vertical_lines);
-
-    for (size_t i = 0; i < lines + num_new_horizontal_lines; i++) {
-        free(resized_input[i]);
-    }
-
-    free(resized_input);
 }
