@@ -128,3 +128,13 @@ p2d11.out: day-11/part-2.c common/logger.c
 	@mkdir -p $(BUILD)/day-11
 	@cp day-11/input.txt $(BUILD)/day-11
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-11/$@
+
+p1d12.out: day-12/part-1.c common/logger.c
+	@mkdir -p $(BUILD)/day-12
+	@cp day-12/input.txt $(BUILD)/day-12
+	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-12/$@
+
+p2d12.out: day-11/part-2.c common/logger.c
+	@mkdir -p $(BUILD)/day-12
+	@cp day-12/input.txt $(BUILD)/day-12
+	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-12/$@
