@@ -71,10 +71,16 @@ sum_of_all_combinations: int = 0
 for line in input_lines:
     record, sizes = line.split()
 
-    sizes = tuple([int(size) for size in sizes.split(",")])
+    record = "?".join([record] * 5)
+
+    sizes = tuple([int(size) for size in sizes.split(",")]) * 5
 
     print(f"Calculating combinations for record '{record}' with sizes {sizes}")
 
-    sum_of_all_combinations += calculate_combinations(record, sizes)
+    combinations = calculate_combinations(record, sizes)
+
+    print(f"Found {combinations} combinations")
+
+    sum_of_all_combinations += combinations
 
 print(f"Sum of all combinations {sum_of_all_combinations}")
