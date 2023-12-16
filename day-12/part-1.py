@@ -7,11 +7,13 @@ input_lines: list[str]
 with open(input_file_path, "r") as f:
     input_lines = f.readlines()
 
-@cache
 def calculate_combinations(record: str, sizes: tuple[int]) -> int:
+
+    print(sizes);
 
     if not sizes:
         if "#" not in record:
+            print("RETURN 1")
             return 1
         else:
             return 0
@@ -23,10 +25,7 @@ def calculate_combinations(record: str, sizes: tuple[int]) -> int:
     next_size = sizes[0]
 
     def pound():
-        global foo
-
         spring_slice = record[:next_size]
-        spring_slice = spring_slice.replace("?", "#")
 
         if "." in spring_slice:
             return 0
@@ -34,14 +33,9 @@ def calculate_combinations(record: str, sizes: tuple[int]) -> int:
         if len(spring_slice) < next_size:
             return 0
 
-        """
-        if spring_slice != next_size*"#":
-            print(foo)
-            foo += 1
-            return 0"""
-
         if len(record) == next_size:
             if len(sizes) == 1:
+                print("RETURN 2")
                 return 1
             else:
                 return 0
@@ -75,6 +69,10 @@ for line in input_lines:
 
     print(f"Calculating combinations for record '{record}' with sizes {sizes}")
 
-    sum_of_all_combinations += calculate_combinations(record, sizes)
+    total = calculate_combinations(record, sizes)
+
+    print(total)
+
+    sum_of_all_combinations += total
 
 print(f"Sum of all combinations {sum_of_all_combinations}")

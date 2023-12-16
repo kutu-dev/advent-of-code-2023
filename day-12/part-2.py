@@ -34,12 +34,6 @@ def calculate_combinations(record: str, sizes: tuple[int]) -> int:
         if len(spring_slice) < next_size:
             return 0
 
-        """
-        if spring_slice != next_size*"#":
-            print(foo)
-            foo += 1
-            return 0"""
-
         if len(record) == next_size:
             if len(sizes) == 1:
                 return 1
