@@ -1,7 +1,7 @@
 CC:=gcc
-CFLAGS:=-Wall -Wextra -Werror -Wpedantic -O3 -lm -ftrapv -g
+CFLAGS:=-g -Wall -Wextra -Werror -Wpedantic -O0 -lm -ftrapv
 BUILD:=./build
-OUT_FILENAMES:=p1d1 p2d1 p1d2 p2d2
+OUT_FILENAMES:=p1d1 p2d1 p1d2 p2d2-g
 OUT_FILENAMES:=$(foreach out_filename,$(OUT_FILENAMES),$(out_filename).out)
 
 .DELETE_ON_ERROR:
@@ -134,7 +134,7 @@ p1d12.out: day-12/part-1.c common/logger.c
 	@cp day-12/input.txt $(BUILD)/day-12
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-12/$@
 
-p2d12.out: day-11/part-2.c common/logger.c
+p2d12.out: day-12/part-2.c common/logger.c common/c-hashmap/map.c
 	@mkdir -p $(BUILD)/day-12
 	@cp day-12/input.txt $(BUILD)/day-12
 	@$(CC) $(CFLAGS) $^ -o $(BUILD)/day-12/$@

@@ -58,23 +58,27 @@ def calculate_combinations(record: str, sizes: tuple[int]) -> int:
         case "?":
             out = dot() + pound()
 
+    #print(out)
     return out
 
 
 sum_of_all_combinations: int = 0
-for line in input_lines:
+for index, line in enumerate(input_lines):
     record, sizes = line.split()
 
     record = "?".join([record] * 5)
 
     sizes = tuple([int(size) for size in sizes.split(",")]) * 5
 
-    print(f"Calculating combinations for record '{record}' with sizes {sizes}")
+    #print(f"Calculating combinations for record '{record}' with sizes {sizes}")
 
     combinations = calculate_combinations(record, sizes)
 
+    print(index + 1)
     print(f"Found {combinations} combinations")
 
     sum_of_all_combinations += combinations
+
+    print(f"Accumulative {sum_of_all_combinations}")
 
 print(f"Sum of all combinations {sum_of_all_combinations}")

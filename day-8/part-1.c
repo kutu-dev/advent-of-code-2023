@@ -97,4 +97,5 @@ int main()
     printf("Number of steps: %d\n", num_of_steps);
 
     hashmap_iterate(nodes, free_node, NULL);
+    hashmap_free(nodes);
 }
